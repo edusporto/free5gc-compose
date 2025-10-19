@@ -1,4 +1,6 @@
-FROM gcc:9.4.0 AS builder
+# FROM gcc:9.4.0 AS builder
+# FROM gcc:12.5.0 AS builder
+FROM gcc:12-bullseye AS builder
 
 LABEL maintainer="Free5GC <support@free5gc.org>"
 
@@ -9,7 +11,7 @@ ARG TARGET_ARCH=x86_64
 
 # Install dependencies
 RUN apt-get update \
-    && apt-get install libsctp-dev lksctp-tools iproute2 -y \
+    && apt-get install libsctp-dev lksctp-tools iproute2 build-essential -y \
     && wget https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1-linux-${TARGET_ARCH}.sh -O cmake_installer.sh \
     && chmod +x cmake_installer.sh \
     && ./cmake_installer.sh --skip-license \
@@ -17,13 +19,14 @@ RUN apt-get update \
     && cd ./UERANSIM \
     && make
 
-FROM bitnami/minideb:bullseye
+# FROM bitnami/minideb:bullseye
+FROM gcc:12-bullseye
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install runtime dependencies + ping
 RUN apt-get update \
-    && apt-get install libsctp-dev lksctp-tools iproute2 iputils-ping procps psmisc -y \
+    && apt-get install libsctp-dev lksctp-tools iproute2 iputils-ping procps psmisc build-essential -y \
     && apt-get clean
 
 WORKDIR /ueransim
