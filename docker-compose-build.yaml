@@ -75,6 +75,26 @@ services:
     depends_on:
       - free5gc-nrf
 
+  nwdaf:
+    container_name: nwdaf
+    build:
+      context: ./nf_nwdaf
+    command: ./nwdaf
+    expose:
+      - "8000"
+    volumes:
+      - ./config/nwdafcfg.yaml:/free5gc/config/nwdafcfg.yaml
+      - ./cert:/free5gc/cert
+    environment:
+      GIN_MODE: release
+    networks:
+      privnet:
+        ipv4_address: 10.100.200.38
+        aliases:
+          - nwdaf.free5gc.org
+    depends_on:
+      - free5gc-amf
+
   free5gc-ausf:
     container_name: ausf
     build:
@@ -339,6 +359,27 @@ services:
     depends_on:
       - free5gc-amf
       - free5gc-upf
+
+
+  # ueransim-ue:
+  #   container_name: ueransim-ue
+  #   build:
+  #     context: ./ueransim
+  #   command: ./nr-ue -c ./config/uecfg.yaml
+  #   volumes:
+  #     - ./config/gnbcfg.yaml:/ueransim/config/gnbcfg.yaml
+  #     - ./config/uecfg.yaml:/ueransim/config/uecfg.yaml
+  #   cap_add:
+  #     - NET_ADMIN
+  #   devices:
+  #     - "/dev/net/tun"
+  #   networks:
+  #     privnet:
+  #       #aliases:
+  #       #  - gnb.free5gc.org
+  #   depends_on:
+  #     - free5gc-amf
+  #     - free5gc-upf
 
   n3iwue:
     container_name: n3iwue

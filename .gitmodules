@@ -1,0 +1,3 @@
+[submodule "nf_nwdaf/mnc_NWDAF"]
+	path = nf_nwdaf/mnc_NWDAF
+	url = https://github.com/edusporto/mnc_NWDAF

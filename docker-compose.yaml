@@ -28,9 +28,30 @@ services:
         aliases:
           - db
 
+  nwdaf:
+    container_name: nwdaf
+    build:
+      context: ./nf_nwdaf
+    command: ./nwdaf
+    expose:
+      - "8000"
+    volumes:
+      - ./config/nwdafcfg.yaml:/free5gc/config/nwdafcfg.yaml
+      - ./cert:/free5gc/cert
+    environment:
+      GIN_MODE: release
+    networks:
+      privnet:
+        ipv4_address: 10.100.200.38
+        aliases:
+          - nwdaf.free5gc.org
+    depends_on:
+      - free5gc-amf
+
+
   free5gc-nrf:
     container_name: nrf
-    image: free5gc/nrf:v4.1.0
+    image: free5gc/nrf:v3.3.0
     command: ./nrf -c ./config/nrfcfg.yaml
     expose:
       - "8000"
@@ -49,7 +70,7 @@ services:
 
   free5gc-amf:
     container_name: amf
-    image: free5gc/amf:v4.1.0
+    image: free5gc/amf:v3.3.0
     command: ./amf -c ./config/amfcfg.yaml
     expose:
       - "8000"

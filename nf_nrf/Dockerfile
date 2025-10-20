@@ -1,4 +1,4 @@
-FROM free5gc/nrf-base:latest AS builder
+FROM free5gc/nrf-base:v3.3.0 AS builder
 FROM alpine:3.15
 
 LABEL description="Free5GC open source 5G Core Network" \
