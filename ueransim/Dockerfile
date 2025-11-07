@@ -15,8 +15,10 @@ RUN apt-get update \
     && wget https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1-linux-${TARGET_ARCH}.sh -O cmake_installer.sh \
     && chmod +x cmake_installer.sh \
     && ./cmake_installer.sh --skip-license \
-    && git clone -b master -j `nproc` https://github.com/aligungr/UERANSIM \
-    && cd ./UERANSIM \
+    && wget https://github.com/aligungr/UERANSIM/archive/refs/tags/v3.2.6.zip -O UERANSIM.zip \
+    && unzip UERANSIM.zip \
+    && rm UERANSIM.zip \
+    && cd ./UERANSIM-3.2.6 \
     && make
 
 # FROM bitnami/minideb:bullseye

@@ -51,7 +51,8 @@ services:
 
   free5gc-nrf:
     container_name: nrf
-    image: free5gc/nrf:v3.3.0
+    # image: free5gc/nrf:v3.3.0
+    image: free5gc/nrf:v4.1.0
     command: ./nrf -c ./config/nrfcfg.yaml
     expose:
       - "8000"
@@ -70,7 +71,8 @@ services:
 
   free5gc-amf:
     container_name: amf
-    image: free5gc/amf:v3.3.0
+    # image: free5gc/amf:v3.3.0
+    image: free5gc/amf:v4.1.0
     command: ./amf -c ./config/amfcfg.yaml
     expose:
       - "8000"
@@ -293,7 +295,7 @@ services:
         aliases:
           - webui
     ports:
-      - "5000:5000"
+      - "8080:5000"
       - "2122:2122"
       - "2121:2121"
     depends_on:
@@ -302,6 +304,7 @@ services:
 
   ueransim:
     container_name: ueransim
+    # image: free5gc/ueransim:v3.3.0
     image: free5gc/ueransim:latest
     command: ./nr-gnb -c ./config/gnbcfg.yaml
     volumes:
